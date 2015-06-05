@@ -109,10 +109,6 @@ describe SQLObject do
     end
   end
 
-  describe '::find_by' do
-    it '::find_by returns cats with specified attributes'
-  end
-
   describe '#insert' do
     let(:cat) { Cat.new(name: 'Gizmo', owner_id: 1) }
 
