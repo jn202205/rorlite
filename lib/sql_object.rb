@@ -1,8 +1,10 @@
 require_relative 'db_connection'
+require_relative 'associable'
 require_relative 'searchable'
 require 'active_support/inflector'
 
 class SQLObject
+  extend Associable
   extend Searchable
 
   def self.columns
