@@ -2,12 +2,14 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'erb'
 require_relative './session'
+require_relative './params'
 
 class ControllerBase
-  attr_reader :req, :res
+  attr_reader :req, :res, :params
 
-  def initialize(req, res)
+  def initialize(req, res, route_params = {})
     @req, @res = req, res
+    @params = Params.new(req, route_params)
     @already_built_response = false
   end
 
