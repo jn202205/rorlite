@@ -4,6 +4,8 @@ require_relative '../lib/controller_base'
 class CatsController < ControllerBase
   def go
     if @req.path == "/cats"
+      session["count"] ||= 0
+      session["count"] += 1
       render :index
     else
       redirect_to("/cats")

@@ -1,6 +1,7 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'erb'
+require_relative './session'
 
 class ControllerBase
   attr_reader :req, :res
@@ -18,6 +19,7 @@ class ControllerBase
     raise 'Already built response' if already_built_response?
     res.body = content
     res.content_type = content_type
+    session.store_session(res)
     @already_built_response = true
 
     nil
@@ -27,6 +29,7 @@ class ControllerBase
     raise 'Already rendered response' if already_built_response?
     res.status = 302
     res.header['location'] = url
+    session.store_session(res)
     @already_built_response = true
 
     nil
@@ -37,6 +40,10 @@ class ControllerBase
     template = File.read("app/views/#{controller_name}/#{template_name}.html.erb")
     content = ERB.new(template).result(binding)
     render_content(content, 'text/html')
+  end
+
+  def session
+    @session ||= Session.new(req)
   end
 
   private
