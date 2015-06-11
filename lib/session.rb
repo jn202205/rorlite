@@ -27,9 +27,9 @@ class Session
     @data[key] = val
   end
 
-  # serialize the hash into json and save in a cookie
-  # add to the responses cookies
   def store_session(res)
-    res.cookies << WEBrick::Cookie.new('_ruby_on_rails_lite_', @data.to_json)
+    cookie = WEBrick::Cookie.new('_ruby_on_rails_lite_', @data.to_json)
+    cookie.path = '/'
+    res.cookies << cookie
   end
 end
