@@ -1,3 +1,7 @@
+require 'active_support'
+require 'active_support/core_ext'
+require 'erb'
+
 class ControllerBase
   attr_reader :req, :res
 
@@ -26,6 +30,13 @@ class ControllerBase
     @already_built_response = true
 
     nil
+  end
+
+  def render(template_name)
+    controller_name = self.class.to_s.underscore
+    template = File.read("app/views/#{controller_name}/#{template_name}.html.erb")
+    content = ERB.new(template).result(binding)
+    render_content(content, 'text/html')
   end
 
   private

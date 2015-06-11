@@ -1,10 +1,10 @@
 require 'webrick'
 require_relative '../lib/controller_base'
 
-class MyController < ControllerBase
+class CatsController < ControllerBase
   def go
     if @req.path == "/cats"
-      render_content("hello cats!", "text/html")
+      render :index
     else
       redirect_to("/cats")
     end
@@ -13,7 +13,7 @@ end
 
 server = WEBrick::HTTPServer.new(Port: 3000)
 server.mount_proc('/') do |req, res|
-  MyController.new(req, res).go
+  CatsController.new(req, res).go
 end
 
 trap('INT') { server.shutdown }
