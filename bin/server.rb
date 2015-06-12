@@ -5,41 +5,18 @@ require_relative '../lib/db_connection'
 require_relative '../lib/sql_object'
 require_relative '../app/models/cat'
 require_relative '../app/models/status'
+require_relative '../app/models/human'
+require_relative '../app/controllers/cats_controller.rb'
+require_relative '../app/controllers/statuses_controller.rb'
 
 DBConnection.reset
-
-class StatusesController < ControllerBase
-  def index
-    @statuses = Status.all
-    render :index
-  end
-end
-
-class CatsController < ControllerBase
-  def index
-    @cats = Cat.all
-    render(:index)
-  end
-
-  def new
-    @cat = Cat.new
-    render(:new)
-  end
-
-  def create
-    @cat = Cat.new
-    render(:new)
-  end
-
-  def show
-    @cat = Cat.find(@params[:id])
-  end
-end
 
 router = Router.new
 router.draw do
   get Regexp.new("^/cats$"), CatsController, :index
+  post Regexp.new("^/cats$"), CatsController, :create
   get Regexp.new("^/cats/(?<id>\\d+)$"), CatsController, :show
+  get Regexp.new("^/cats/new$"), CatsController, :new
   get Regexp.new("^/statuses$"), StatusesController, :index
 end
 
