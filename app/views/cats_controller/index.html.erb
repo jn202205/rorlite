@@ -1,9 +1,7 @@
 <h1>ALL THE CATS</h1>
-<ul>
-  <% @cats.each do |cat| %>
-    <li><%= "#{cat.name} #{cat.statuses}"  %></li>
-  <% end %>
-</ul>
+<pre>
+  <%= p @cats %>
+</pre>
 <br />
 <a href="/cats/new">New cat!</a>
 <br />
