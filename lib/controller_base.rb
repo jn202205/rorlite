@@ -48,7 +48,13 @@ class ControllerBase
     @session ||= Session.new(req)
   end
 
+  def invoke_action(name)
+    self.send(name)
+    render(name) unless already_built_response?
+
+    nil
+  end
+
   private
   attr_writer :req, :res
-
 end
