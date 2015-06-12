@@ -1,0 +1,6 @@
+<h1>Statuses</h1>
+<ul>
+  <% @statuses.each do |status| %>
+    <li><%= "#{status.cat.name}: #{status.text}" %></li>
+  <% end %>
+</ul>
