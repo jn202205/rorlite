@@ -6,6 +6,14 @@ CREATE TABLE cats (
   FOREIGN KEY(owner_id) REFERENCES human(id)
 );
 
+CREATE TABLE statuses (
+  id INTEGER PRIMARY KEY,
+  text VARCHAR(255) NOT NULL,
+  cat_id INTEGER,
+
+  FOREIGN KEY(cat_id) REFERENCES cat(id)
+);
+
 CREATE TABLE humans (
   id INTEGER PRIMARY KEY,
   fname VARCHAR(255) NOT NULL,
@@ -41,3 +49,10 @@ VALUES
   (3, "Haskell", 3),
   (4, "Markov", 3),
   (5, "Stray Cat", NULL);
+
+INSERT INTO
+  statuses (id, cat_id, text)
+VALUES
+  (1, 1, "Curie loves string!" ),
+  (2, 2, "Markov is mighty!" ),
+  (3, 1, "Curie is cool!" );
