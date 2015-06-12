@@ -1,12 +1,11 @@
 require 'webrick'
 require 'controller_base'
-require_relative '../app/models/cat'
 
 describe ControllerBase do
   before(:all) do
     class CatsController < ControllerBase
       def index
-        @cats = Cat.all
+        @cats = ["GIZMO"]
       end
     end
   end
@@ -118,7 +117,7 @@ describe ControllerBase do
       it "captures instance variables from the controller" do
         cats_controller3.index
         cats_controller3.render(:index)
-        expect(cats_controller3.res.body).to include("Breakfast")
+        expect(cats_controller3.res.body).to include("GIZMO")
       end
     end
   end
