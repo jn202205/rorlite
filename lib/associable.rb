@@ -1,5 +1,9 @@
 require 'active_support/inflector'
 
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'human', 'humans'
+end
+
 class AssocOptions
   attr_accessor :foreign_key, :class_name, :primary_key
 
