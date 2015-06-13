@@ -1,5 +1,5 @@
 require_relative './route'
-require_relative './router_helper'
+require_relative './route_helper'
 
 class Router
   include RouteHelper

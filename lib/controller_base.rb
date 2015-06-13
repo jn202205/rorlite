@@ -3,9 +3,12 @@ require 'active_support/core_ext'
 require 'erb'
 require_relative './session'
 require_relative './params'
+require_relative './route_helper'
 require_relative './flash'
 
 class ControllerBase
+  include RouteHelper
+
   attr_reader :req, :res, :params
 
   def initialize(req, res, route_params = {})
