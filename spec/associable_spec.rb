@@ -137,8 +137,7 @@ describe 'Associable' do
       expect(ned).to respond_to(:cats)
       cats = ned.cats
 
-      expect(cats.length).to eq(2)
-
+      expect(cats.length).to eq(2) 
       expected_cat_names = %w(Haskell Markov)
       2.times do |i|
         cat = cats[i]
@@ -210,6 +209,31 @@ describe 'Associable' do
 
       expect(house).to be_instance_of(House)
       expect(house.address).to eq('26th and Guerrero')
+    end
+  end
+
+  describe '#has_many_through' do
+    before(:all) do
+      class House
+        has_many :humans
+        has_many_through :cats, :humans, :cats
+
+        self.finalize!
+      end
+    end
+
+    let(:house) { House.find(1) }
+
+    it 'adds getter method' do
+      expect(house).to respond_to(:cats)
+    end
+
+    it 'fetches associated `cats` for a `Home`' do
+      cats = house.cats
+      expect(cats[0]).to be_instance_of(Cat)
+      expect(cats[0].name).to eq('Breakfast')
+      expect(cats[1]).to be_instance_of(Cat)
+      expect(cats[1].name).to eq('Earl')
     end
   end
 end
