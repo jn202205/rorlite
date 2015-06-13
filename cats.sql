@@ -56,6 +56,6 @@ VALUES
 INSERT INTO
   statuses (id, cat_id, text)
 VALUES
-  (1, 1, "Curie loves string!" ),
-  (2, 2, "Markov is mighty!" ),
-  (3, 1, "Curie is cool!" );
+  (1, 1, "Breakfast loves string!" ),
+  (2, 2, "Earl is mighty!" ),
+  (3, 1, "Breakfast is cool!" );
