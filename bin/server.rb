@@ -1,15 +1,10 @@
 require 'webrick'
 require_relative '../lib/controller_base'
 require_relative '../lib/router'
-require_relative '../lib/db_connection'
 require_relative '../lib/sql_object'
-require_relative '../app/models/cat'
-require_relative '../app/models/status'
-require_relative '../app/models/human'
-require_relative '../app/controllers/cats_controller.rb'
-require_relative '../app/controllers/statuses_controller.rb'
-
-DBConnection.reset
+application_root = File.realpath(File.dirname(File.absolute_path(__FILE__)) + '/..')
+Dir.glob(application_root + '/app/controllers/*.rb', &method(:require))
+Dir.glob(application_root + '/app/models/*.rb', &method(:require))
 
 router = Router.new
 router.draw do
