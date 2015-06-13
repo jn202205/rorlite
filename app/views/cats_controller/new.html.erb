@@ -11,6 +11,7 @@
 
   <label>Owner
     <select name="cat[owner_id]">
+      <option value="NULL">Stray</option>
       <% Human.all.each do |human| %>
         <option value="<%= human.id %>"><%= human.fname %></option>
       <% end %>
@@ -19,3 +20,5 @@
 
   <input type="submit">
 </form>
+<br />
+<%= link_to "all cats", cats_path %>
