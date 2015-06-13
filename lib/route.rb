@@ -34,12 +34,12 @@ class Route
 
   def generate_collection_helper
     name = model_name
-    controller_class.send(:define_method, "#{name}s_path") { "/#{name}s" }
+    controller_class.send(:define_method, "#{name.pluralize}_path") { "/#{name.pluralize}" }
   end
 
   def generate_new_helper
     name = model_name
-    controller_class.send(:define_method, "new_#{name}_path") { "/#{name}s/new" }
+    controller_class.send(:define_method, "new_#{name}_path") { "/#{name.pluralize}/new" }
   end
 
   def generate_edit_helper
