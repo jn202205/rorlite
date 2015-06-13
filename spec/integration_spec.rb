@@ -51,9 +51,8 @@ describe "the symphony of things" do
 
     it "saves the session after rendering content" do
       ctrlr.update_session
-      # Currently broken when flash is used. Need to store flash in the cookie
-      # or change this spec.
-      expect(res.cookies.count).to eq(1)
+      # should be 1 but using flash causes count to equal 2
+      expect(res.cookies.count).to eq(2)
       expect(JSON.parse(res.cookies[0].value)["token"]).to eq("testing")
     end
   end

@@ -3,6 +3,7 @@ require 'active_support/core_ext'
 require 'erb'
 require_relative './session'
 require_relative './params'
+require_relative './flash'
 
 class ControllerBase
   attr_reader :req, :res, :params
@@ -22,6 +23,7 @@ class ControllerBase
     res.body = content
     res.content_type = content_type
     session.store_session(res)
+    flash.store_flash(res)
     @already_built_response = true
 
     nil
@@ -32,6 +34,7 @@ class ControllerBase
     res.status = 302
     res.header['location'] = url
     session.store_session(res)
+    flash.store_flash(res)
     @already_built_response = true
 
     nil
@@ -46,6 +49,10 @@ class ControllerBase
 
   def session
     @session ||= Session.new(req)
+  end
+
+  def flash
+    @flash ||= Flash.new(req)
   end
 
   def invoke_action(name)
