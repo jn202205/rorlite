@@ -3,6 +3,8 @@ require 'router'
 require 'controller_base'
 
 describe Route do
+  before(:all) { class DummyController; end }
+  after(:all) { Object.send(:remove_const, "DummyController") }
   let(:req) { WEBrick::HTTPRequest.new(Logger: nil) }
   let(:res) { WEBrick::HTTPResponse.new(HTTPVersion: '1.0') }
 
@@ -25,8 +27,8 @@ describe Route do
       expect(index_route.matches?(req)).to be_truthy
     end
 
-    it "correctly doesn't matche regular expression with capture" do
-      index_route = Route.new(Regexp.new("^/users/(?<id>\\d+)$"), :get, "UsersController", :index)
+    it "correctly doesn't match regular expression with capture" do
+      index_route = Route.new(Regexp.new("^/dummies/(?<id>\\d+)$"), :get, DummyController, :index)
       allow(req).to receive(:path) { "/statuses/1" }
       allow(req).to receive(:request_method) { :get }
       expect(index_route.matches?(req)).to be_falsey
@@ -34,9 +36,6 @@ describe Route do
   end
 
   describe "#run" do
-    before(:all) { class DummyController; end }
-    after(:all) { Object.send(:remove_const, "DummyController") }
-
     it "instantiates controller and invokes action" do
       # reader beware. hairy adventures ahead.
       # this is really checking way too much implementation,

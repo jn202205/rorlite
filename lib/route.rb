@@ -33,30 +33,30 @@ class Route
   private
 
   def generate_collection_helper
-    name = model_name(controller_class)
+    name = model_name
     controller_class.send(:define_method, "#{name}s_path") { "/#{name}s" }
   end
 
   def generate_new_helper
-    name = model_name(controller_class)
+    name = model_name
     controller_class.send(:define_method, "new_#{name}_path") { "/#{name}s/new" }
   end
 
   def generate_edit_helper
-    name = model_name(controller_class)
+    name = model_name
     controller_class.send(:define_method, "edit_#{name}_path") do |arg|
       "/#{name}s/#{arg}/edit"
     end
   end
 
   def generate_instance_helper
-    name = model_name(controller_class)
+    name = model_name
     controller_class.send(:define_method, "#{name}_path") do |arg|
       "/#{name}s/#{arg[:id]}"
     end
   end
 
-  def model_name(controller_class)
+  def model_name
     "#{controller_class.to_s.gsub(/Controller/, '').downcase.singularize}"
   end
 end

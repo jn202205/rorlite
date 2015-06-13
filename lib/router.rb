@@ -1,8 +1,6 @@
 require_relative './route'
-require_relative './route_helper'
 
 class Router
-  include RouteHelper
   attr_reader :routes
 
   def initialize
@@ -36,5 +34,27 @@ class Router
   def run(req, res)
     route = match(req)
     route.nil? ? res.status = 404 : route.run(req, res)
+  end
+
+  def resources(controller, options)
+    routes = {
+      index: { path: "/#{controller}", method: :get },
+      create: { path: "/#{controller}", method: :post },
+      new: { path: "/#{controller}/new", method: :get },
+      edit: { path: "/#{controller}/:id/edit", method: :get },
+      show: { path: "/#{controller}/:id", method: :get },
+      update: { path: "/#{controller}/:id", method: :put },
+      destroy: { path: "/#{controller}/:id", method: :delete }
+    }
+
+    routes.select! { |action| options[:only].include?(action) } if options[:only]
+    routes -= options[:except] if options[:except]
+
+    routes.keys.each do |action|
+      add_route(Regexp.new("^#{routes[action][:path]}$"),
+                routes[action][:method],
+                "#{controller}_controller".camelize.constantize,
+                action)
+    end
   end
 end

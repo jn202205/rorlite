@@ -4,10 +4,10 @@ require 'erb'
 require_relative './session'
 require_relative './params'
 require_relative './flash'
+require_relative './route_helper'
 
 class ControllerBase
   include RouteHelper
-
   attr_reader :req, :res, :params
 
   def initialize(req, res, route_params = {})

@@ -8,16 +8,12 @@ Dir.glob(application_root + '/app/models/*.rb', &method(:require))
 
 router = Router.new
 router.draw do
-  get Regexp.new("^/cats$"), CatsController, :index
-  post Regexp.new("^/cats$"), CatsController, :create
-  get Regexp.new("^/cats/(?<id>\\d+)$"), CatsController, :show
-  get Regexp.new("^/cats/new$"), CatsController, :new
-  get Regexp.new("^/statuses$"), StatusesController, :index
+  resources :cats, only: [:index, :new, :create]
 end
 
 server = WEBrick::HTTPServer.new(Port: 3000)
 server.mount_proc('/') do |req, res|
-  route = router.run(req, res)
+  router.run(req, res)
 end
 
 trap('INT') { server.shutdown }
