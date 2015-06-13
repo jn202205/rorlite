@@ -1,11 +1,16 @@
 require 'webrick'
+require_relative '../lib/router'
 require 'controller_base'
+require_relative '../lib/sql_object'
+application_root = File.realpath(File.dirname(File.absolute_path(__FILE__)) + '/..')
+Dir.glob(application_root + '/app/controllers/*.rb', &method(:require))
+Dir.glob(application_root + '/app/models/*.rb', &method(:require))
 
 describe ControllerBase do
   before(:all) do
     class CatsController < ControllerBase
       def index
-        @cats = ["GIZMO"]
+        @cats = Cat.all
       end
     end
   end
@@ -84,16 +89,19 @@ describe ControllerBase do
   end
 
   describe '#render' do
-    before(:each) do
-      cats_controller.render(:index)
-    end
-
     it "renders the html of the index view" do
+      cats_controller.index
+      cats_controller.render(:index)
       cats_controller.res.body.should include("ALL THE CATS")
       cats_controller.res.body.should include("<h1>")
       cats_controller.res.content_type.should == "text/html"
     end
 
+    it "captures instance variables from the controller" do
+      cats_controller.index
+      cats_controller.render(:index)
+      expect(cats_controller.res.body).to include("Breakfast")
+    end
     describe "#already_built_response?" do
       let(:cats_controller3) { CatsController.new(req, res) }
 
@@ -108,16 +116,11 @@ describe ControllerBase do
       end
 
       it "raises an error when attempting to render twice" do
+        cats_controller3.index
         cats_controller3.render(:index)
         expect do
           cats_controller3.render(:index)
         end.to raise_error
-      end
-
-      it "captures instance variables from the controller" do
-        cats_controller3.index
-        cats_controller3.render(:index)
-        expect(cats_controller3.res.body).to include("GIZMO")
       end
     end
   end
