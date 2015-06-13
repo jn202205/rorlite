@@ -3,7 +3,6 @@ require 'active_support/core_ext'
 require 'erb'
 require_relative './session'
 require_relative './params'
-require_relative './route_helper'
 require_relative './flash'
 
 class ControllerBase

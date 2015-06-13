@@ -12,16 +12,6 @@ class Router
   # adds a new route to the list of routes
   def add_route(pattern, method, controller_class, action_name)
     @routes << Route.new(pattern, method, controller_class, action_name)
-    case action_name
-    when :index, :create
-      generate_collection_helper(controller_class)
-    when :new
-      generate_new_helper(controller_class)
-    when :put
-      generate_edit_helper(controller_class)
-    when :show, :update, :destroy
-      generate_instance_helper(controller_class)
-    end
   end
 
   # evaluate the proc in the context of the instance
