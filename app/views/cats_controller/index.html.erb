@@ -1,9 +1,23 @@
 <h1>ALL THE CATS</h1>
-<pre>
-  <%= p @cats %>
-</pre>
-<br />
-<a href="/cats/new">New cat!</a>
-<br />
-<h3>Session count</h3>
-<%= session["count"] %>
+
+<% if flash[:notice] %>
+  Notice: <%= flash[:notice] %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cat Name</th>
+      <th>Owner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cats.each do |cat| %>
+      <tr>
+        <td><%= cat.name %></td>
+        <td><%= cat.human ? "#{cat.human.fname} #{cat.human.lname }" : "Stray Cat" %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<a href="/cats/new">New Cat!</a>

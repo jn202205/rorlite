@@ -13,9 +13,7 @@ class CatsController < ControllerBase
   end
 
   def create
-    @human = Human.where(fname: params["cat"]["human"])
-
-    @cat = @owner.new(params["cat"])
+    @cat = Cat.new(params["cat"])
     if @cat.save
       redirect_to "/cats"
     else
