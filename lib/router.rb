@@ -37,6 +37,14 @@ class Router
   end
 
   def resources(controller, options)
+    routes = define_routes(controller, options)
+    routes.keys.each do |action|
+      pattern = replace_url_vars(routes[action][:path])
+      add_route(pattern, routes[action][:method], "#{controller}_controller".camelize.constantize, action)
+    end
+  end
+
+  def define_routes(controller, options)
     routes = {
       index: { path: "/#{controller}", method: :get },
       create: { path: "/#{controller}", method: :post },
@@ -49,12 +57,13 @@ class Router
 
     routes.select! { |action| options[:only].include?(action) } if options[:only]
     routes -= options[:except] if options[:except]
+    routes
+  end
 
-    routes.keys.each do |action|
-      add_route(Regexp.new("^#{routes[action][:path]}$"),
-                routes[action][:method],
-                "#{controller}_controller".camelize.constantize,
-                action)
+  def replace_url_vars(path_str)
+    pattern = path_str.gsub!(/(:\w+)[\/]?/) do |match|
+      "(?<#{match.gsub(/[:\/]/, "")}>\\d+)#{match[-1] == "/" ? "/" : ""}"
     end
+    Regexp.new("^#{pattern}$")
   end
 end
