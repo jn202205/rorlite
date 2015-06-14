@@ -1,3 +1,5 @@
+require_relative 'route_helper'
+
 class Route
   attr_reader :pattern, :http_method, :controller_class, :action_name
 
@@ -8,15 +10,17 @@ class Route
   end
 
   def add_route_helpers
+    name = model_name
+    plural_name = model_name.pluralize
     case action_name
     when :index, :create
-      generate_collection_helper
+      add_path_method("#{plural_name}_path", "/#{plural_name}")
     when :new
-      generate_new_helper
+      add_path_method("new_#{name}_path", "/#{plural_name}/new")
     when :edit
-      generate_edit_helper
+      add_path_method("edit_#{name}_path", "/#{plural_name}/:id/edit")
     when :show, :update, :destroy
-      generate_instance_helper
+      add_path_method("#{name}_path", "/#{plural_name}/:id")
     end
   end
 
@@ -31,32 +35,17 @@ class Route
   end
 
   private
-
-  def generate_collection_helper
-    name = model_name
-    controller_class.send(:define_method, "#{name.pluralize}_path") { "/#{name.pluralize}" }
-  end
-
-  def generate_new_helper
-    name = model_name
-    controller_class.send(:define_method, "new_#{name}_path") { "/#{name.pluralize}/new" }
-  end
-
-  def generate_edit_helper
-    name = model_name
-    controller_class.send(:define_method, "edit_#{name}_path") do |arg|
-      "/#{name}s/#{arg}/edit"
-    end
-  end
-
-  def generate_instance_helper
-    name = model_name
-    controller_class.send(:define_method, "#{name}_path") do |arg|
-      "/#{name}s/#{arg[:id]}"
+  def add_path_method(path_name, path)
+    RouteHelper.send(:define_method, path_name) do |*args|
+      id = args.first.to_s
+      if path.include?(':id') && !id.nil?
+        path.gsub!(':id', id)
+      end
+      path
     end
   end
 
   def model_name
-    "#{controller_class.to_s.gsub(/Controller/, '').downcase.singularize}"
+    controller_class.to_s.underscore.gsub('_controller', '').singularize
   end
 end
