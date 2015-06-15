@@ -44,6 +44,11 @@ class Router
     end
   end
 
+  def root(options)
+    controller, action = options[:to].split('#')
+    add_route(Regexp.new("^/$"), :get, "#{controller}_controller".camelize.constantize, action.to_sym)
+  end
+
   def define_routes(controller, options)
     routes = {
       index: { path: "/#{controller}", method: :get },
