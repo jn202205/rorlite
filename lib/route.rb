@@ -39,9 +39,10 @@ class Route
     RouteHelper.send(:define_method, path_name) do |*args|
       id = args.first.to_s
       if path.include?(':id') && !id.nil?
-        path.gsub!(':id', id)
+        path.gsub(':id', id)
+      else
+        path
       end
-      path
     end
   end
 
