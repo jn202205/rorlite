@@ -61,9 +61,14 @@ class Router
   end
 
   def replace_url_vars(path_str)
-    pattern = path_str.gsub!(/(:\w+)[\/]?/) do |match|
-      "(?<#{match.gsub(/[:\/]/, "")}>\\d+)#{match[-1] == "/" ? "/" : ""}"
+    if path_str.include?(":id")
+      pattern = path_str.gsub!(/(:\w+)[\/]?/) do |match|
+        "(?<#{match.gsub(/[:\/]/, "")}>\\d+)#{match[-1] == "/" ? "/" : ""}"
+      end
+      pattern = Regexp.new("^#{pattern}$")
+    else
+      pattern = Regexp.new("^#{path_str}$")
     end
-    Regexp.new("^#{pattern}$")
+    pattern
   end
 end
