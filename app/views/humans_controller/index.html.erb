@@ -1,0 +1,30 @@
+<h1>ALL THE HUMANZ</h1>
+
+<% if flash[:notice] %>
+  Notice: <%= flash[:notice] %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Home Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @humans.each do |human| %>
+      <tr>
+        <td><%= link_to "#{human.fname} #{human.lname}", human_path(human.id) %></td>
+        <% if human.house %>
+          <td><%= link_to human.house.address, house_path(human.house.id) %></td>
+        <% else %>
+          <td>No Address</td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br />
+<%= link_to 'New Human', new_human_path %> |
+<%= link_to 'All Houses', houses_path %> |
+<%= link_to 'All cats', cats_path %>

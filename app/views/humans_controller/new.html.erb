@@ -1,0 +1,27 @@
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error| %>
+    <%= error %>
+  <% end %>
+<% end %>
+
+<form action="/humans" method="POST">
+  <label>First Name
+    <input type="text" name="human[fname]" value="<%= @human.fname %>">
+  </label>
+
+  <label>Last Name
+    <input type="text" name="human[lname]" value="<%= @human.lname %>">
+  </label>
+
+  <label>House
+    <select name="human[house_id]">
+      <% House.all.each do |house| %>
+        <option value="<%= house.id %>"><%= house.address %></option>
+      <% end %>
+    </select>
+  </label>
+
+  <input type="submit">
+</form>
+<br />
+<%= link_to "all cats", '/cats' %>

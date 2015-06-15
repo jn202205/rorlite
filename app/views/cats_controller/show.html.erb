@@ -1,3 +1,31 @@
 <h1><%= @cat.name %></h1>
+<table>
+  <thead>
+    <tr>
+      <th>Owner</th>
+      <th>Home</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% if @cat.human %>
+        <td><%= link_to "#{@cat.human.fname} #{@cat.human.lname}", human_path(@cat.human.id) %></td>
+        <td><%= link_to @cat.house.address, house_path(@cat.house.id) %> </td>
+      <% else %>
+        <td colspan="2"><%= "#{@cat.name} is a stray :(" %></td>
+      <% end %>
+    </tr>
+  </tbody>
+</table>
+<h3><%= @cat.name %>'s statuses</h3>
+<ul>
+  <% @cat.statuses.each do |status| %>
+    <li><%= status.text %></li>
+  <% end %>
+</ul>
+<%= link_to 'New status', new_status_path %>
 <br />
-<%= link_to "all cats", cats_path %>
+<br />
+<%= link_to 'All Cats', cats_path %> |
+<%= link_to 'All Houses', houses_path %> |
+<%= link_to 'All Humans', humans_path %>

@@ -8,7 +8,11 @@ Dir.glob(application_root + '/app/models/*.rb', &method(:require))
 
 router = Router.new
 router.draw do
-  resources :cats, only: [:index, :new, :create]
+  root to: "houses#index"
+  resources :houses, only: [:index, :show, :new, :create]
+  resources :humans, only: [:index, :new, :create, :show]
+  resources :cats, only: [:index, :new, :create, :show]
+  resources :statuses, only: [:new, :create]
 end
 
 server = WEBrick::HTTPServer.new(Port: 3000)

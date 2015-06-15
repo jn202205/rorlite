@@ -1,0 +1,23 @@
+<h1><%= @house.address %></h1>
+<h3>Residents</h3>
+<table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @house.humans.each do |human| %>
+      <tr>
+        <td><%= link_to human.fname, human_path(human.id) %></td>
+        <td><%= link_to human.lname, human_path(human.id) %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br />
+<%= link_to 'New Human', new_human_path %> |
+<%= link_to 'All houses', houses_path %> |
+<%= link_to 'All Humans', humans_path %> |
+<%= link_to 'All Cats', cats_path %>

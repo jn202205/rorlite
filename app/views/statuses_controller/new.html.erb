@@ -1,0 +1,26 @@
+<h1>Add a status for cat</h1>
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error| %>
+    <%= error %>
+  <% end %>
+<% end %>
+
+<form action="/statuses" method="POST">
+  <label>Status:
+    <textarea name="status[text]"><%= @status.text %></textarea>
+  </label>
+  <br />
+  <label>Cat name:
+    <select name="status[cat_id]">
+      <% Cat.all.each do |cat| %>
+        <option value="<%= cat.id %>"><%= cat.name %></option>
+      <% end %>
+    </select>
+  </label>
+
+  <input type="submit">
+</form>
+<br />
+<%= link_to "All Cats", cats_path %> |
+<%= link_to "All Human", humans_path %> |
+<%= link_to "All Houses", houses_path %>

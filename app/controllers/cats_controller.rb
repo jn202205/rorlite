@@ -3,8 +3,6 @@ require_relative '../../lib/controller_base'
 class CatsController < ControllerBase
   def index
     @cats = Cat.all
-    session['count'] ||= 0
-    session['count'] += 1
   end
 
   def new
@@ -15,13 +13,18 @@ class CatsController < ControllerBase
   def create
     @cat = Cat.new(params["cat"])
     if @cat.save
-      redirect_to "/cats"
+      redirect_to cats_path
     else
       render :new
     end
   end
 
   def show
-    @cat = Cat.find(@params[:id])
+    @cat = Cat.find(@params['id'].to_i)
+    if @cat
+      render(:show)
+    else
+      redirect_to(:index)
+    end
   end
 end

@@ -1,0 +1,22 @@
+<h1><%= "#{@human.fname} #{@human.lname}" %></h1>
+<h4>Residence: <%= @human.house.address %></h4>
+<h3><%= "#{@human.fname}'s Cats" %></h3>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @human.cats.each do |cat| %>
+      <tr>
+        <td><%= link_to "#{cat.name}", cat_path(cat.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br />
+<%= link_to 'New Cat', new_cat_path %> |
+<%= link_to 'All Houses', houses_path %> |
+<%= link_to 'All Humans', humans_path %> |
+<%= link_to 'All Cats', cats_path %>

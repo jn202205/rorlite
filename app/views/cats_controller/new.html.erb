@@ -1,3 +1,4 @@
+<h1>Create a new cat</h1>
 <% if flash[:errors] %>
   <% flash[:errors].each do |error| %>
     <%= error %>
@@ -5,11 +6,11 @@
 <% end %>
 
 <form action="/cats" method="POST">
-  <label>Name
+  <label>Name:
     <input type="text" name="cat[name]" value="<%= @cat.name %>">
   </label>
-
-  <label>Owner
+  <br />
+  <label>Owner:
     <select name="cat[owner_id]">
       <option value="NULL">Stray</option>
       <% Human.all.each do |human| %>
@@ -21,4 +22,6 @@
   <input type="submit">
 </form>
 <br />
-<%= link_to "all cats", cats_path %>
+<%= link_to "All Cats", cats_path %> |
+<%= link_to 'All Houses', houses_path %> |
+<%= link_to 'All Humans', humans_path %>

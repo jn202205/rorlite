@@ -9,17 +9,25 @@
     <tr>
       <th>Cat Name</th>
       <th>Owner</th>
+      <th>Home Address</th>
     </tr>
   </thead>
   <tbody>
     <% @cats.each do |cat| %>
       <tr>
-        <td><%= cat.name %></td>
-        <td><%= cat.human ? "#{cat.human.fname} #{cat.human.lname }" : "Stray Cat" %> </td>
+        <td><%= link_to "#{cat.name}", cat_path(cat.id) %></td>
+        <% if cat.human %>
+          <td><%= link_to "#{cat.human.fname} #{cat.human.lname }", human_path(cat.human.id) %> </td>
+          <td><%= link_to "#{cat.house.address}", house_path(cat.house.id) %> </td>
+        <% else %>
+          <td>NA</td>
+          <td>NA</td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 <br />
-<%= link_to 'new', '/cats' %>
-<%= link_to 'statuses', '/statuses' %>
+<%= link_to 'New Cat', new_cat_path %> |
+<%= link_to 'All Houses', houses_path %> |
+<%= link_to 'All Humans', humans_path %>

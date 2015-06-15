@@ -1,0 +1,18 @@
+<h1>Add a new house</h1>
+<% if flash[:errors] %>
+  <% flash[:errors].each do |error| %>
+    <%= error %>
+  <% end %>
+<% end %>
+
+<form action="/houses" method="POST">
+  <label>Address
+    <input type="text" name="house[address]" value="<%= @house.address %>">
+  </label>
+
+  <input type="submit">
+</form>
+<br />
+<%= link_to "All Houses", houses_path %> |
+<%= link_to 'All Humans', humans_path %> |
+<%= link_to 'All Cats', cats_path %>
